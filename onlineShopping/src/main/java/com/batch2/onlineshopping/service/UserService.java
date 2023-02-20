@@ -11,7 +11,7 @@ public interface UserService {
 
 	Optional<User> getUserDetails(int id);
 
-	void deleteUser(int id);
+	String deleteUser(int id);
 	String login(User  user);
 
 }

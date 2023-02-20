@@ -20,7 +20,9 @@ public class UserServiceImpl implements UserService{
 		if (user.getPassword().equals(user.getConfirmPassword())) {
 			String encryptedPassword = new BCryptPasswordEncoder().encode(user.getPassword());
 			user.setPassword(encryptedPassword);
-			return userRepository.save(user);
+			User user1=userRepository.save(user);
+			user1.setPassword(null);
+			return user1;
 		}
 		return null;
 
@@ -30,9 +32,11 @@ public class UserServiceImpl implements UserService{
 	public User updateUser(User user, int id) {
 
 		if (user.getPassword().equals(user.getConfirmPassword())) {
-			
+			String encryptedPassword = new BCryptPasswordEncoder().encode(user.getPassword());
+			user.setPassword(encryptedPassword);
 			user.setId(id);
 			User user1 = userRepository.save(user);
+			user1.setPassword(null);
 			return user1;
 		}
 		return null;
@@ -41,13 +45,20 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public Optional<User> getUserDetails(int id) {
 
-		return userRepository.findById(id);
+		Optional<User> user = userRepository.findById(id);
+		user.get().setPassword(null);
+		return user;
 	}
 
 	@Override
-	public void deleteUser(int id) {
+	public String deleteUser(int id) {
+		if (userRepository.existsById(id)) {
 
-		userRepository.deleteById(id);
+			userRepository.deleteById(id);
+
+			return "User deleted successfuly";
+		}
+		return "User can't find";
 	}
 	@Override
 	public String login(User user) {

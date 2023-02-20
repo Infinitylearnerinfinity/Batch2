@@ -31,7 +31,7 @@ public class UserController {
     
 	@SecurityRequirement(name = "Bearer Authentication")
 	@PreAuthorize(value="hasRole('ROLE_ADMIN') || hasRole('ROLE_CUSTOMER')")
-	@PutMapping("/updateUser/{id}")
+	@PutMapping("/user/{id}")
 	public User updateUser(@RequestBody User user, @PathVariable int id) {
 
 		return userService.updateUser(user,id);
@@ -39,7 +39,7 @@ public class UserController {
 	
 	@SecurityRequirement(name = "Bearer Authentication")
 	@PreAuthorize(value="hasRole('ROLE_ADMIN') || hasRole('ROLE_CUSTOMER')")
-	@GetMapping("/getUser/{id}")
+	@GetMapping("/user/{id}")
 	public Optional<User> getUser(@PathVariable int id) {
 		
 		return userService.getUserDetails(id);	
@@ -47,10 +47,10 @@ public class UserController {
 	
 	@SecurityRequirement(name = "Bearer Authentication")
 	@PreAuthorize(value="hasRole('ROLE_ADMIN') || hasRole('ROLE_CUSTOMER')")
-    @DeleteMapping("/deleteUser/{id}")
-	public void deleteUser(@PathVariable int id) {
+    @DeleteMapping("/user/{id}")
+	public String  deleteUser(@PathVariable int id) {
 		
-		userService.deleteUser(id);	
+		return userService.deleteUser(id);	
 	}
 	
 	

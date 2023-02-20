@@ -1,5 +1,6 @@
 package com.batch2.onlineshopping.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.batch2.onlineshopping.entity.Products;
+import com.batch2.onlineshopping.repository.ProductsRepository;
 import com.batch2.onlineshopping.service.ProductsService;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -51,6 +53,13 @@ public class ProductsController {
 	public String deleteProducts(@PathVariable int id) {
 		
 		return productsService.deleteProducts(id);
+	}
+	
+	@SecurityRequirement(name = "Bearer Authentication")
+	@PreAuthorize(value="hasRole('ROLE_ADMIN') || hasRole('ROLE_CUSTOMER')")
+	@GetMapping("/products")
+	public List<Products> getProducts(){
+		return productsService.getProducts();
 	}
 }
 

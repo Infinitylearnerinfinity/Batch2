@@ -13,28 +13,36 @@ import com.batch2.onlineshopping.repository.ProductsRepository;
 public class ProductsServiceImpl implements ProductsService {
 	@Autowired
 	ProductsRepository productsRepository;
-    @Override
-	public Products addProducts(Products products) {
 
-		return productsRepository.save(products);
+	@Override
+	public Products addProducts(Products products) {
+		if (products.getCost() > 0 && products.getQuantity() > 0) {
+
+			return productsRepository.save(products);
+		}
+		return new Products();
 	}
 
 	@Override
 	public Optional<Products> getProducts(int id) {
-		
+
 		return productsRepository.findById(id);
 	}
 
 	@Override
 	public Products updateProducts(Products products, int id) {
-		
-		products.setId(id);
-		return productsRepository.save(products);
+		if (products.getCost() > 0 && products.getQuantity() > 0) {
+			products.setId(id);
+			return productsRepository.save(products);
+		}
+		return new Products();
+
 	}
+
 	@Override
 	public String deleteProducts(int id) {
-		if(productsRepository.existsById(id)) {
-			
+		if (productsRepository.existsById(id)) {
+
 			productsRepository.deleteById(id);
 
 			return "Product deleted successfuly";
@@ -44,7 +52,12 @@ public class ProductsServiceImpl implements ProductsService {
 
 	@Override
 	public List<Products> getProductsByCategory(String category) {
-		
+
 		return null;
+	}
+
+	@Override
+	public List<Products> getProducts() {
+		return productsRepository.findAll();
 	}
 }

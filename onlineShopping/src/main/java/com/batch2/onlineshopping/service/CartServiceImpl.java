@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.batch2.onlineshopping.entity.Cart;
 import com.batch2.onlineshopping.entity.Products;
 import com.batch2.onlineshopping.entity.User;
 import com.batch2.onlineshopping.repository.ProductsRepository;
